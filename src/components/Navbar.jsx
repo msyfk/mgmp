@@ -54,7 +54,7 @@ const Navbar = () => {
           <div className="md:hidden">
             <button
               onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-md text-white hover:text-white hover:bg-red-800"
+              className="p-2 text-slate-800 hover:text-red"
             >
               {isMobileMenuOpen ? (
                 // Ikon 'X' saat menu terbuka
@@ -70,12 +70,11 @@ const Navbar = () => {
 
       {/* Daftar Menu Mobile (Tampil/Sembunyi) */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-red-800">
+        <div className="md:hidden bg-slate-100">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Beranda</a>
-            <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Tentang</a>
-            <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Layanan</a>
-            <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Kontak</a>
+            <a href="#" className="text-slate-800 hover:bg-red hover:text-white block px-3 py-2 rounded-md text-base font-medium">Beranda</a>
+            <a href="#" className="text-slate-800 hover:bg-red hover:text-white block px-3 py-2 rounded-md text-base font-medium">Berita</a>
+            <a href="#" className="text-slate-800 hover:bg-red hover:text-white block px-3 py-2 rounded-md text-base font-medium">Informasi</a>
           </div>
         </div>
       )}
