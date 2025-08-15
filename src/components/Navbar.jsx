@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const Navbar = () => {
+const Navbar = ({ changePage }) => {
   // State untuk menu mobile
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   // State untuk dropdown informasi di desktop
@@ -37,13 +37,13 @@ const Navbar = () => {
     <nav className="bg-slate-100 p-4 relative shadow-md">
       <div className="container mx-auto flex items-center justify-between">
         <div className="text-slate-800 text-3xl font-extrabold">
-          <a href="#">Mgmp.</a>
+          <a href="#" onClick={() => changePage('beranda')}>Mgmp.</a>
         </div>
 
         {/* Grup Tengah: Navigasi Desktop */}
         <div className="hidden md:flex items-center space-x-4">
-          <a href="#" className="text-slate-800 hover:bg-red hover:text-white px-3 py-2 rounded-full text-sm font-medium">Beranda</a>
-          <a href="#" className="text-slate-800 hover:bg-red hover:text-white px-3 py-2 rounded-full text-sm font-medium">Berita</a>
+          <a href="#" onClick={() => changePage('beranda')} className="text-slate-800 hover:bg-red hover:text-white px-3 py-2 rounded-full text-sm font-medium">Beranda</a>
+          <a href="#" onClick={() => changePage('berita')} className="text-slate-800 hover:bg-red hover:text-white px-3 py-2 rounded-full text-sm font-medium">Berita</a>
 
           <div className="relative" ref={dropdownRef}>
             <button
@@ -55,9 +55,9 @@ const Navbar = () => {
             </button>
             {isInfoDropdownOpen && (
               <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20">
-                <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profil</a>
-                <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Visi & Misi</a>
-                <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Kegiatan</a>
+                <a href="#" onClick={() => {changePage('profil'); setInfoDropdownOpen(false);}} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profil</a>
+                <a href="#" onClick={() => {changePage('visimisi'); setInfoDropdownOpen(false);}} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Visi & Misi</a>
+                <a href="#" onClick={() => {changePage('kegiatan'); setInfoDropdownOpen(false);}} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Kegiatan</a>
               </div>
             )}
           </div>
@@ -99,8 +99,8 @@ const Navbar = () => {
       {isMobileMenuOpen && (
         <div className="md:hidden bg-slate-100 absolute top-full left-0 w-full shadow-md z-10">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a href="#" className="text-slate-800 hover:bg-red hover:text-white block px-3 py-2 rounded-md text-base font-medium">Beranda</a>
-            <a href="#" className="text-slate-800 hover:bg-red hover:text-white block px-3 py-2 rounded-md text-base font-medium">Berita</a>
+            <a href="#" onClick={() => {changePage('beranda'); setMobileMenuOpen(false);}} className="text-slate-800 hover:bg-red hover:text-white block px-3 py-2 rounded-md text-base font-medium">Beranda</a>
+            <a href="#" onClick={() => {changePage('berita'); setMobileMenuOpen(false);}} className="text-slate-800 hover:bg-red hover:text-white block px-3 py-2 rounded-md text-base font-medium">Berita</a>
             <div>
               <button
                 onClick={() => setMobileInfoDropdownOpen(!isMobileInfoDropdownOpen)}
@@ -111,9 +111,9 @@ const Navbar = () => {
               </button>
               {isMobileInfoDropdownOpen && (
                 <div className="mt-2 pl-4">
-                  <a href="#" className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-200 rounded-md">Profil</a>
-                  <a href="#" className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-200 rounded-md">Visi & Misi</a>
-                  <a href="#" className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-200 rounded-md">Kegiatan</a>
+                  <a href="#" onClick={() => {changePage('profil'); setMobileMenuOpen(false);}} className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-200 rounded-md">Profil</a>
+                  <a href="#" onClick={() => {changePage('visimisi'); setMobileMenuOpen(false);}} className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-200 rounded-md">Visi & Misi</a>
+                  <a href="#" onClick={() => {changePage('kegiatan'); setMobileMenuOpen(false);}} className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-200 rounded-md">Kegiatan</a>
                 </div>
               )}
             </div>
