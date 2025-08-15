@@ -1,23 +1,20 @@
 import React, { useState } from 'react';
 
-// --- (PENTING) GANTI DENGAN GAMBAR ANDA ---
-// 1. Simpan gambar Anda di folder `src/assets`
-// 2. Impor gambar-gambar tersebut di sini
-import quizizzBg from '../assets/quizizz.png'; // Contoh: ganti 'quizizz.png' dengan nama file Anda
-import wordwallBg from '../assets/wordwall.png'; // Contoh: ganti 'wordwall.png' dengan nama file Anda
-import educandyBg from '../assets/educandy.png'; // Contoh: ganti 'educandy.png' dengan nama file Anda
-import kahootBg from '../assets/kahoot.png';   // Contoh: ganti 'kahoot.png' dengan nama file Anda
-import canvaBg from '../assets/canva.png';     // Contoh: ganti 'canva.png' dengan nama file Anda
-
+// --- Impor gambar Anda ---
+import quizizzBg from '../assets/quizizz.png';
+import wordwallBg from '../assets/wordwall.png';
+import educandyBg from '../assets/educandy.png';
+import kahootBg from '../assets/kahoot.png';
+import canvaBg from '../assets/canva.png';
+import myBanner from '../assets/hero-image.jpg'
 
 // Data untuk slider "Saran Pembelajaran"
-// Menambahkan properti 'bgImage' untuk setiap item
 const learningTools = [
-  { name: 'Quizizz', logo: 'https://cdn.worldvectorlogo.com/logos/quizizz.svg', url: 'https://quizizz.com/', bgImage: quizizzBg },
-  { name: 'Wordwall', logo: 'https://wordwall.net/images/logo-L.png', url: 'https://wordwall.net/', bgImage: wordwallBg },
-  { name: 'Educandy Studio', logo: 'https://educandy.com/wp-content/uploads/2021/03/logo-v2-300px.png', url: 'https://educandy.com/', bgImage: educandyBg },
-  { name: 'Kahoot!', logo: 'https://cdn.worldvectorlogo.com/logos/kahoot-logo-2013.svg', url: 'https://kahoot.it/', bgImage: kahootBg },
-  { name: 'Canva', logo: 'https://cdn.worldvectorlogo.com/logos/canva-1.svg', url: 'https://www.canva.com/', bgImage: canvaBg },
+  { name: 'Quizizz', url: 'https://quizizz.com/', bgImage: quizizzBg },
+  { name: 'Wordwall', url: 'https://wordwall.net/', bgImage: wordwallBg },
+  { name: 'Educandy Studio', url: 'https://educandy.com/', bgImage: educandyBg },
+  { name: 'Kahoot!', url: 'https://kahoot.it/', bgImage: kahootBg },
+  { name: 'Canva', url: 'https://www.canva.com/', bgImage: canvaBg },
 ];
 
 // Data untuk "Artikel dan Berita"
@@ -61,7 +58,7 @@ const Hero = () => {
       {/* Bagian Banner Atas */}
       <div className="container mx-auto my-8 px-4">
         <div className="w-full h-64 md:h-96 bg-gradient-to-r from-orange-400 to-yellow-500 rounded-lg shadow-lg overflow-hidden">
-          <img src="https://placehold.co/1200x400/f97316/262626?text=Image+Banner" alt="Abstract banner" className="w-full h-full object-cover" />
+          <img src={myBanner} alt="Abstract banner" className="w-full h-full object-cover" />
         </div>
       </div>
 
@@ -89,11 +86,11 @@ const Hero = () => {
                     href={tool.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded-lg shadow-md h-32 flex items-center justify-center relative overflow-hidden transition-transform hover:scale-105 hover:shadow-xl bg-cover bg-center"
+                    className="rounded-lg shadow-md h-32 block relative overflow-hidden transition-transform hover:scale-105 hover:shadow-xl bg-cover bg-center"
                     style={{ backgroundImage: `url(${tool.bgImage})` }}
+                    aria-label={tool.name}
                   >
-                    {/* Logo */}
-                    <img src={tool.logo} alt={tool.name} className="max-h-16 max-w-full object-contain z-10" />
+                    {/* Elemen <img> sudah dihapus dari sini */}
                   </a>
                 </div>
               ))}
