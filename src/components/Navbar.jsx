@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FiBell, FiUser, FiSearch, FiX } from 'react-icons/fi'; // Impor ikon X untuk tombol close
+import { FiBell, FiUser, FiSearch, FiX } from 'react-icons/fi';
 
-const Navbar = ({ changePage }) => {
+const Navbar = ({ changePage, currentPage }) => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isInfoDropdownOpen, setInfoDropdownOpen] = useState(false);
   const [isMobileInfoDropdownOpen, setMobileInfoDropdownOpen] = useState(false);
@@ -19,7 +19,6 @@ const Navbar = ({ changePage }) => {
     };
   }, [dropdownRef]);
 
-  // Efek untuk mencegah scroll di body saat menu mobile terbuka
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -40,23 +39,40 @@ const Navbar = ({ changePage }) => {
     setMobileInfoDropdownOpen(false);
   };
 
+  const isInfoActive = ['profil', 'visimisi', 'kegiatan'].includes(currentPage);
+
   return (
     <>
-      <nav className="bg-slate-100 p-4 relative shadow-md z-10">
-        <div className="container mx-auto flex items-center justify-between">
+      <nav className="sticky top-0 w-full bg-white/80 backdrop-blur-lg shadow-md z-30">
+        <div className="container mx-auto flex items-center justify-between p-4">
           <div className="text-slate-800 text-3xl font-extrabold">
             <a href="#" onClick={() => changePage('beranda')}>Mgmp.</a>
           </div>
 
           {/* Navigasi Desktop */}
           <div className="hidden md:flex items-center space-x-4">
-            <a href="#" onClick={() => changePage('beranda')} className="text-slate-800 hover:bg-red hover:text-white px-3 py-2 rounded-full text-sm font-medium">Beranda</a>
-            <a href="#" onClick={() => changePage('berita')} className="text-slate-800 hover:bg-red hover:text-white px-3 py-2 rounded-full text-sm font-medium">Berita</a>
+            <a
+              href="#"
+              onClick={() => changePage('beranda')}
+              className={`px-3 py-2 rounded-full text-sm font-medium transition-colors duration-300 ease-in-out ${currentPage === 'beranda' ? 'bg-red text-white' : 'text-slate-800 hover:bg-red hover:text-white'
+                }`}
+            >
+              Beranda
+            </a>
+            <a
+              href="#"
+              onClick={() => changePage('berita')}
+              className={`px-3 py-2 rounded-full text-sm font-medium transition-colors duration-300 ease-in-out ${currentPage === 'berita' ? 'bg-red text-white' : 'text-slate-800 hover:bg-red hover:text-white'
+                }`}
+            >
+              Berita
+            </a>
 
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setInfoDropdownOpen(!isInfoDropdownOpen)}
-                className="text-slate-800 hover:bg-red hover:text-white px-3 py-2 rounded-full text-sm font-medium flex items-center focus:outline-none cursor-pointer"
+                className={`px-3 py-2 rounded-full text-sm font-medium flex items-center focus:outline-none cursor-pointer transition-colors duration-300 ease-in-out ${isInfoActive ? 'bg-red text-white' : 'text-slate-800 hover:bg-red hover:text-white'
+                  }`}
               >
                 <span>Informasi</span>
                 <svg className={`w-4 h-4 ml-1 transition-transform duration-200 ${isInfoDropdownOpen ? 'transform rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -83,40 +99,36 @@ const Navbar = ({ changePage }) => {
                 <FiSearch className="h-5 w-5 text-slate-600" />
               </button>
             </div>
-            <button className="p-2 rounded-full text-slate-800 hover:text-white hover:bg-red focus:outline-none">
+            <button className="p-2 rounded-full text-slate-800 hover:text-white hover:bg-red focus:outline-none transition-colors duration-300">
               <FiBell className="h-6 w-6" />
             </button>
-            <button className="p-2 rounded-full text-slate-800 hover:text-white hover:bg-red focus:outline-none">
+            <button className="p-2 rounded-full text-slate-800 hover:text-white hover:bg-red focus:outline-none transition-colors duration-300">
               <FiUser className="h-6 w-6" />
             </button>
             <div className="md:hidden">
               <button onClick={handleMobileMenuToggle} className="p-2 text-slate-800 hover:text-red">
-                {isMobileMenuOpen ? (
-                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                ) : (
-                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
-                )}
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
               </button>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Mobile Menu Overlay (Latar belakang hitam transparan) */}
+      {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div
           onClick={closeMobileMenu}
-          className="fixed inset-0 bg-slate-500/10 backdrop-blur-md z-20 transition-opacity duration-300 ease-in-out"
+          className="fixed inset-0 bg-slate-500/10 backdrop-blur-md z-40 transition-opacity duration-300 ease-in-out"
           aria-hidden="true"
         ></div>
       )}
 
-      {/* Mobile Menu Sidebar (Latar belakang putih) */}
+      {/* Mobile Menu Sidebar */}
       <div
-        className={`fixed top-0 right-0 h-full w-4/5 max-w-sm bg-white shadow-xl z-30 transform transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`fixed top-0 right-0 h-full w-4/5 max-w-sm bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
       >
         <div className="flex justify-between items-center p-4 border-b border-slate-200">
-          <h2 className="text-xl font-bold text-slate-800">Mgmp.</h2>
+          <h2 className="text-xl font-bold text-slate-800">Menu</h2>
           <button onClick={closeMobileMenu} className="p-2 text-slate-800 hover:text-red">
             <FiX className="h-6 w-6" />
           </button>
@@ -132,7 +144,6 @@ const Navbar = ({ changePage }) => {
               <FiSearch className="h-5 w-5 text-slate-600" />
             </button>
           </div>
-
           <a href="#" onClick={() => { changePage('beranda'); closeMobileMenu(); }} className="text-slate-800 hover:bg-red hover:text-white block px-3 py-2 rounded-md text-base font-medium">Beranda</a>
           <a href="#" onClick={() => { changePage('berita'); closeMobileMenu(); }} className="text-slate-800 hover:bg-red hover:text-white block px-3 py-2 rounded-md text-base font-medium">Berita</a>
           <div>

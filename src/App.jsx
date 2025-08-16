@@ -32,7 +32,7 @@ const App = () => {
 
   return (
     <div>
-      <Navbar changePage={changePage} />
+      <Navbar changePage={changePage} currentPage={currentPage} />  
       {renderPage()}
     </div>
   );
