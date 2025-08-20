@@ -131,11 +131,13 @@ const Navbar = ({ changePage, currentPage, isLoggedIn, onLogout }) => {
 
         {/* --- Dropdown Notifikasi (Responsif) --- */}
         <div
-          className={`absolute top-full left-0 right-0 md:right-4 md:left-auto md:w-80 transition-all duration-300 ease-in-out ${isNotificationDropdownOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
+          className={`absolute top-full right-4 w-80 md:w-96 transition-all duration-300 ease-in-out ${isNotificationDropdownOpen
+              ? 'opacity-100 translate-y-0'
+              : 'opacity-0 -translate-y-4 pointer-events-none'
             }`}
         >
-          <div className="bg-white rounded-b-lg md:rounded-lg shadow-xl border-t md:border-none">
-            <div className="p-4 border-b">
+          <div className="bg-white rounded-lg shadow-xl">
+            <div className="p-4">
               <h3 className="text-lg font-semibold text-slate-800">Notifikasi</h3>
             </div>
             <div className="divide-y max-h-80 overflow-y-auto">
