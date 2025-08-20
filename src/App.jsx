@@ -7,6 +7,7 @@ import VisiMisi from './components/VisiMisi.jsx';
 import Kegiatan from './components/Kegiatan.jsx';
 import Login from './components/Login.jsx';
 import Register from './components/Register.jsx';
+import ProfilPengguna from './components/ProfilPengguna.jsx'; // <-- Impor baru
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState('beranda');
@@ -42,6 +43,8 @@ const App = () => {
         return <Login changePage={changePage} onLoginSuccess={handleLoginSuccess} />;
       case 'register':
         return <Register changePage={changePage} />;
+      case 'profilPengguna': // <-- Case baru
+        return <ProfilPengguna onLogout={handleLogout} />;
       default:
         return <Hero />;
     }

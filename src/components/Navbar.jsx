@@ -114,7 +114,8 @@ const Navbar = ({ changePage, currentPage, isLoggedIn, onLogout }) => {
               </button>
               {isLoggedIn && isUserDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20">
-                  <a href="#" onClick={() => { changePage('profil'); setUserDropdownOpen(false); }} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profil Saya</a>
+                  {/* --- UBAH BARIS INI --- */}
+                  <a href="#" onClick={() => { changePage('profilPengguna'); setUserDropdownOpen(false); }} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profil Saya</a>
                   <button onClick={() => { onLogout(); setUserDropdownOpen(false); }} className="w-full text-left flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                     <FiLogOut className="mr-2" />
                     Keluar
