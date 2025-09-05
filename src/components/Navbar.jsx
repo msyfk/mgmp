@@ -144,7 +144,7 @@ const Navbar = ({ changePage, currentPage, isLoggedIn, onLogout }) => {
             <div className="divide-y max-h-80 overflow-y-auto">
               {notifications.map(notif => (
                 <div key={notif.id} className="p-4 flex items-start space-x-3 hover:bg-slate-50">
-                  <div className="flex-shrink-0 text-2xl">{notif.icon}</div>
+                  <div className="shrink-0 text-2xl">{notif.icon}</div>
                   <div>
                     <p className="text-sm text-slate-700">{notif.text}</p>
                     <p className="text-xs text-slate-500 mt-1">{notif.time}</p>

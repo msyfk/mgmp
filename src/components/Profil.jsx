@@ -23,7 +23,7 @@ const Profil = () => {
                 Sejak didirikan, MGMP telah menjadi motor penggerak dalam implementasi kurikulum, pengembangan metode pembelajaran kreatif, serta pemanfaatan teknologi dalam pendidikan di wilayah Kabupaten Pasuruan.
               </p>
             </div>
-            <div className="w-full h-64 bg-gradient-to-r from-red to-orange-400 rounded-lg flex items-center justify-center">
+            <div className="w-full h-64 bg-linear-to-r from-red to-orange-400 rounded-lg flex items-center justify-center">
               <FiUsers className="text-white text-8xl" />
             </div>
           </div>

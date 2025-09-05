@@ -40,7 +40,7 @@ const VisiMisi = () => {
           <ul className="space-y-4">
             {misiItems.map((misi, index) => (
               <li key={index} className="flex items-start">
-                <FiCheckCircle className="text-green-500 mr-3 mt-1 flex-shrink-0" />
+                <FiCheckCircle className="text-green-500 mr-3 mt-1 shrink-0" />
                 <span className="text-slate-700 leading-relaxed">{misi}</span>
               </li>
             ))}

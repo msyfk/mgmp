@@ -75,12 +75,12 @@ const Berita = () => {
             {beritaDiHalamanIni.map((berita, index) => (
               <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col">
                 <img src={berita.gambarUrl} alt={berita.judul} className="w-full h-48 object-cover" />
-                <div className="p-6 flex flex-col flex-grow">
+                <div className="p-6 flex flex-col grow">
                   <div className="flex justify-between items-center mb-3">
                     <span className="bg-red/10 text-red px-3 py-1 rounded-full text-xs font-semibold">{berita.kategori}</span>
                     <span className="text-xs text-slate-500">{berita.tanggal}</span>
                   </div>
-                  <h2 className="text-xl font-bold text-slate-800 mb-2 flex-grow">{berita.judul}</h2>
+                  <h2 className="text-xl font-bold text-slate-800 mb-2 grow">{berita.judul}</h2>
                   <p className="text-slate-600 text-sm leading-relaxed line-clamp-3 mb-4">
                     {berita.deskripsi}
                   </p>

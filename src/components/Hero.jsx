@@ -57,7 +57,7 @@ const Hero = () => {
     <>
       {/* Bagian Banner Atas */}
       <div className="container mx-auto my-8 px-4">
-        <div className="w-full h-64 md:h-96 bg-gradient-to-r from-orange-400 to-yellow-500 rounded-lg shadow-lg overflow-hidden">
+        <div className="w-full h-64 md:h-96 bg-linear-to-r from-orange-400 to-yellow-500 rounded-lg shadow-lg overflow-hidden">
           <img src={myBanner} alt="Abstract banner" className="w-full h-full object-cover" />
         </div>
       </div>
@@ -81,7 +81,7 @@ const Hero = () => {
               style={{ transform: `translateX(-${currentIndex * (100 / itemsPerPage)}%)` }}
             >
               {learningTools.map((tool, index) => (
-                <div key={index} className="flex-shrink-0 w-1/3 px-2">
+                <div key={index} className="shrink-0 w-1/3 px-2">
                   <a
                     href={tool.url}
                     target="_blank"
@@ -116,15 +116,15 @@ const Hero = () => {
             <div className="md:col-span-2 flex flex-col gap-6">
               {articles.map((article, index) => (
                 <div key={index} className="bg-white rounded-lg shadow-lg p-4 flex items-start gap-4">
-                  <img src={article.imageUrl} alt={article.title} className="w-24 h-24 md:w-36 md:h-24 object-cover rounded-md flex-shrink-0" />
-                  <div className="flex-grow">
+                  <img src={article.imageUrl} alt={article.title} className="w-24 h-24 md:w-36 md:h-24 object-cover rounded-md shrink-0" />
+                  <div className="grow">
                     <h3 className="text-lg font-bold text-slate-800 mb-2">{article.title}</h3>
                     <p className="text-sm text-gray-600 line-clamp-3">{article.description}</p>
                   </div>
                 </div>
               ))}
             </div>
-            <div className="md:col-span-1 bg-white rounded-lg shadow-lg min-h-[20rem]">
+            <div className="md:col-span-1 bg-white rounded-lg shadow-lg min-h-80">
               {/* Konten sidebar kanan */}
             </div>
           </div>
