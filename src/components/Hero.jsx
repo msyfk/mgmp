@@ -22,17 +22,17 @@ const articles = [
   {
     title: 'Judul Artiker atau Berita',
     description: 'Lorem ipsum dolor sit amet consectetur. Posuere vel tellus urna nunc proin aliquet tempor convallis pulvinar. Aenean tempor enim consequat in purus habitant mi leo.',
-    imageUrl: 'https://placehold.co/150x100/e2e8f0/334155',
+    imageUrl: 'https://www.hostinger.com/tutorials/wp-content/uploads/sites/2/2023/02/how-to-create-online-course.png',
   },
   {
     title: 'Judul Artiker atau Berita',
     description: 'Lorem ipsum dolor sit amet consectetur. Posuere vel tellus urna nunc proin aliquet tempor convallis pulvinar. Aenean tempor enim consequat in purus habitant mi leo.',
-    imageUrl: 'https://placehold.co/150x100/e2e8f0/334155',
+    imageUrl: 'https://wpucourse.id/_next/image?url=https%3A%2F%2Fsbmxiqtgmewstxseetwl.supabase.co%2Fstorage%2Fv1%2Fobject%2Fpublic%2Fimages%2F1756699207656-React%2520Golang%2520Project%2520Management%2520System%2520(5).png&w=3840&q=75',
   },
   {
     title: 'Judul Artiker atau Berita',
     description: 'Lorem ipsum dolor sit amet consectetur. Posuere vel tellus urna nunc proin aliquet tempor convallis pulvinar. Aenean tempor enim consequat in purus habitant mi leo.',
-    imageUrl: 'https://placehold.co/150x100/e2e8f0/334155',
+    imageUrl: 'https://wpucourse.id/_next/image?url=https%3A%2F%2Fres.cloudinary.com%2Fdvbumrgea%2Fimage%2Fupload%2Fv1732587629%2F%0Arpxtze6h9fzraqxabhsn.png&w=3840&q=75',
   },
 ];
 
