@@ -37,7 +37,7 @@ const verifyToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded;
+    req.user = decoded; // req.user sekarang akan berisi { id, email, role }
     next();
   } catch (err) {
     return res.status(401).json({ message: "Token tidak valid." });
@@ -56,20 +56,26 @@ app.post("/register", async (req, res) => {
         return res.status(500).json({ message: "Database error.", error: err });
       if (results.length > 0)
         return res.status(400).json({ message: "Email sudah terdaftar." });
+
       const hashedPassword = await bcrypt.hash(password, 10);
-      db.query(
-        "INSERT INTO users SET ?",
-        { full_name: fullName, email: email, password: hashedPassword },
-        (err, result) => {
-          if (err)
-            return res
-              .status(500)
-              .json({ message: "Gagal mendaftarkan pengguna.", error: err });
-          res
-            .status(201)
-            .json({ message: "Registrasi berhasil! Silakan login." });
-        }
-      );
+
+      // Menambahkan 'role: "user"' secara default
+      const newUser = {
+        full_name: fullName,
+        email: email,
+        password: hashedPassword,
+        role: "user", // Semua registrasi baru otomatis menjadi 'user'
+      };
+
+      db.query("INSERT INTO users SET ?", newUser, (err, result) => {
+        if (err)
+          return res
+            .status(500)
+            .json({ message: "Gagal mendaftarkan pengguna.", error: err });
+        res
+          .status(201)
+          .json({ message: "Registrasi berhasil! Silakan login." });
+      });
     }
   );
 });
@@ -80,6 +86,8 @@ app.post("/login", (req, res) => {
     return res
       .status(400)
       .json({ message: "Email dan kata sandi wajib diisi." });
+
+  // Memilih semua kolom termasuk 'role'
   db.query(
     "SELECT * FROM users WHERE email = ?",
     [email],
@@ -90,24 +98,34 @@ app.post("/login", (req, res) => {
         return res
           .status(401)
           .json({ message: "Email atau kata sandi salah." });
+
       const user = results[0];
       const isMatch = await bcrypt.compare(password, user.password);
+
       if (!isMatch)
         return res
           .status(401)
           .json({ message: "Email atau kata sandi salah." });
-      const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
-        expiresIn: "1h",
-      });
-      res.json({ message: "Login berhasil!", token });
+
+      // Menambahkan 'role' ke dalam payload JWT
+      const token = jwt.sign(
+        { id: user.id, email: user.email, role: user.role }, // Tambahkan role
+        JWT_SECRET,
+        { expiresIn: "1h" }
+      );
+
+      // Mengirimkan 'role' kembali ke frontend
+      res.json({ message: "Login berhasil!", token, role: user.role });
     }
   );
 });
 
 app.get("/profile", verifyToken, (req, res) => {
   const userId = req.user.id;
+
+  // Memilih kolom 'role'
   db.query(
-    "SELECT id, full_name, email FROM users WHERE id = ?",
+    "SELECT id, full_name, email, role FROM users WHERE id = ?",
     [userId],
     (err, results) => {
       if (err)
@@ -122,10 +140,12 @@ app.get("/profile", verifyToken, (req, res) => {
         .join("")
         .toUpperCase();
 
+      // Mengirimkan 'role' kembali ke frontend
       res.json({
         name: user.full_name,
         email: user.email,
         avatar: `https://placehold.co/128x128/e2e8f0/334155?text=${initials}`,
+        role: user.role, // Kirim role
       });
     }
   );

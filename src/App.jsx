@@ -9,16 +9,35 @@ import Login from './components/Login.jsx';
 import Register from './components/Register.jsx';
 import ProfilPengguna from './components/ProfilPengguna.jsx';
 
+// Komponen placeholder untuk Halaman Admin
+// Anda bisa membuatnya di file terpisah nanti
+const AdminDashboard = () => {
+  return (
+    <div className="bg-slate-50 min-h-screen py-12 px-4">
+      <div className="container mx-auto max-w-4xl">
+        <h1 className="text-4xl font-extrabold text-slate-800">Admin Dashboard</h1>
+        <p className="mt-4 text-slate-600">
+          Selamat datang di halaman admin. Di sini Anda dapat mengelola pengguna,
+          berita, dan konten lainnya.
+        </p>
+      </div>
+    </div>
+  );
+};
+
+
 const App = () => {
   const [currentPage, setCurrentPage] = useState('beranda');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userData, setUserData] = useState(null); // State baru untuk menyimpan data user
+  const [userData, setUserData] = useState(null);
+  const [userRole, setUserRole] = useState(null); // State baru untuk role
 
   // Fungsi untuk mengambil data profil dari server
   const fetchUserData = async () => {
     const token = localStorage.getItem('token');
     if (!token) {
       setIsLoggedIn(false);
+      setUserRole(null); // Pastikan role kosong
       return;
     }
 
@@ -34,11 +53,12 @@ const App = () => {
       }
 
       const data = await response.json();
-      setUserData(data); // Simpan data pengguna
-      setIsLoggedIn(true); // Set status login
+      setUserData(data);
+      setUserRole(data.role); // Set role dari profil
+      setIsLoggedIn(true);
     } catch (error) {
       console.error('Gagal mengambil data pengguna:', error);
-      handleLogout(); // Jika gagal (misal token expired), logout saja
+      handleLogout();
     }
   };
 
@@ -51,15 +71,18 @@ const App = () => {
     setCurrentPage(page);
   };
 
-  const handleLoginSuccess = () => {
-    fetchUserData(); // Ambil data pengguna setelah login berhasil
+  // Terima 'role' saat login sukses
+  const handleLoginSuccess = (role) => {
+    setUserRole(role); // Set role langsung dari login
+    fetchUserData(); // Ambil sisa data pengguna
     changePage('beranda');
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); // Hapus token
+    localStorage.removeItem('token');
     setIsLoggedIn(false);
-    setUserData(null); // Hapus data pengguna
+    setUserData(null);
+    setUserRole(null); // Hapus role saat logout
     changePage('beranda');
   };
 
@@ -79,9 +102,27 @@ const App = () => {
         return <Login changePage={changePage} onLoginSuccess={handleLoginSuccess} />;
       case 'register':
         return <Register changePage={changePage} />;
+
+      // Rute terproteksi untuk user yang login
       case 'profilPengguna':
-        // Kirim data pengguna sebagai prop ke komponen ProfilPengguna
+        if (!isLoggedIn) {
+          changePage('login');
+          return <Login changePage={changePage} onLoginSuccess={handleLoginSuccess} />;
+        }
         return <ProfilPengguna user={userData} onLogout={handleLogout} />;
+
+      // Rute terproteksi khusus admin
+      case 'adminDashboard':
+        if (!isLoggedIn) {
+          changePage('login');
+          return <Login changePage={changePage} onLoginSuccess={handleLoginSuccess} />;
+        }
+        if (userRole !== 'admin') {
+          changePage('beranda'); // Redirect ke beranda jika bukan admin
+          return <Hero />;
+        }
+        return <AdminDashboard />; // Tampilkan dashboard jika admin
+
       default:
         return <Hero />;
     }
@@ -94,6 +135,7 @@ const App = () => {
         currentPage={currentPage}
         isLoggedIn={isLoggedIn}
         onLogout={handleLogout}
+        userRole={userRole} // Kirim role ke Navbar
       />
       {renderPage()}
     </div>

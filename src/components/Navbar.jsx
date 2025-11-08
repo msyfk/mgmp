@@ -1,7 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FiBell, FiUser, FiSearch, FiX, FiCheckCircle, FiTrendingUp, FiAward, FiLogOut } from 'react-icons/fi';
+import {
+  FiBell,
+  FiUser,
+  FiSearch,
+  FiX,
+  FiCheckCircle,
+  FiTrendingUp,
+  FiAward,
+  FiLogOut,
+  FiGrid // Icon untuk Admin Panel
+} from 'react-icons/fi';
 
-const Navbar = ({ changePage, currentPage, isLoggedIn, onLogout }) => {
+// Terima 'userRole' sebagai prop
+const Navbar = ({ changePage, currentPage, isLoggedIn, onLogout, userRole }) => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isInfoDropdownOpen, setInfoDropdownOpen] = useState(false);
   const [isMobileInfoDropdownOpen, setMobileInfoDropdownOpen] = useState(false);
@@ -63,7 +74,16 @@ const Navbar = ({ changePage, currentPage, isLoggedIn, onLogout }) => {
       setUserDropdownOpen(!isUserDropdownOpen);
     } else {
       changePage('login');
+      closeMobileMenu(); // Tutup menu mobile jika ada
     }
+  };
+
+  // Fungsi helper untuk navigasi agar menu mobile tertutup
+  const navigate = (page) => {
+    changePage(page);
+    closeMobileMenu();
+    setInfoDropdownOpen(false);
+    setUserDropdownOpen(false);
   };
 
   return (
@@ -71,13 +91,13 @@ const Navbar = ({ changePage, currentPage, isLoggedIn, onLogout }) => {
       <nav className="sticky top-0 w-full bg-white/80 backdrop-blur-lg shadow-md z-30">
         <div className="container mx-auto flex items-center justify-between p-4">
           <div className="text-slate-800 text-3xl font-extrabold">
-            <a href="#" onClick={() => changePage('beranda')}>Mgmp.</a>
+            <a href="#" onClick={() => navigate('beranda')}>Mgmp.</a>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-4">
-            <a href="#" onClick={() => changePage('beranda')} className={`px-3 py-2 rounded-full text-sm font-medium transition-colors duration-300 ${currentPage === 'beranda' ? 'bg-red text-white' : 'text-slate-800 hover:bg-red hover:text-white'}`}>Beranda</a>
-            <a href="#" onClick={() => changePage('berita')} className={`px-3 py-2 rounded-full text-sm font-medium transition-colors duration-300 ${currentPage === 'berita' ? 'bg-red text-white' : 'text-slate-800 hover:bg-red hover:text-white'}`}>Berita</a>
+            <a href="#" onClick={() => navigate('beranda')} className={`px-3 py-2 rounded-full text-sm font-medium transition-colors duration-300 ${currentPage === 'beranda' ? 'bg-red text-white' : 'text-slate-800 hover:bg-red hover:text-white'}`}>Beranda</a>
+            <a href="#" onClick={() => navigate('berita')} className={`px-3 py-2 rounded-full text-sm font-medium transition-colors duration-300 ${currentPage === 'berita' ? 'bg-red text-white' : 'text-slate-800 hover:bg-red hover:text-white'}`}>Berita</a>
 
             <div className="relative" ref={dropdownRef}>
               <button onClick={() => setInfoDropdownOpen(!isInfoDropdownOpen)} className={`px-3 py-2 rounded-full text-sm font-medium flex items-center focus:outline-none transition-colors duration-300 ${isInfoActive ? 'bg-red text-white' : 'text-slate-800 hover:bg-red hover:text-white'}`}>
@@ -86,12 +106,29 @@ const Navbar = ({ changePage, currentPage, isLoggedIn, onLogout }) => {
               </button>
               {isInfoDropdownOpen && (
                 <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20">
-                  <a href="#" onClick={() => { changePage('profil'); setInfoDropdownOpen(false); }} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profil</a>
-                  <a href="#" onClick={() => { changePage('visimisi'); setInfoDropdownOpen(false); }} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Visi & Misi</a>
-                  <a href="#" onClick={() => { changePage('kegiatan'); setInfoDropdownOpen(false); }} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Kegiatan</a>
+                  <a href="#" onClick={() => navigate('profil')} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profil</a>
+                  <a href="#" onClick={() => navigate('visimisi')} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Visi & Misi</a>
+                  <a href="#" onClick={() => navigate('kegiatan')} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Kegiatan</a>
                 </div>
               )}
             </div>
+
+            {/* --- LINK ADMIN DESKTOP --- */}
+            {isLoggedIn && userRole === 'admin' && (
+              <a
+                href="#"
+                onClick={() => navigate('adminDashboard')}
+                className={`px-3 py-2 rounded-full text-sm font-medium transition-colors duration-300 flex items-center
+                  ${currentPage === 'adminDashboard'
+                    ? 'bg-yellow-500 text-white'
+                    : 'text-slate-800 hover:bg-yellow-500 hover:text-white'
+                  }`}
+              >
+                <FiGrid className="mr-2" />
+                Admin Panel
+              </a>
+            )}
+            {/* --------------------------- */}
           </div>
 
           {/* Right Icons */}
@@ -114,8 +151,7 @@ const Navbar = ({ changePage, currentPage, isLoggedIn, onLogout }) => {
               </button>
               {isLoggedIn && isUserDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20">
-                  {/* --- UBAH BARIS INI --- */}
-                  <a href="#" onClick={() => { changePage('profilPengguna'); setUserDropdownOpen(false); }} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profil Saya</a>
+                  <a href="#" onClick={() => navigate('profilPengguna')} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profil Saya</a>
                   <button onClick={() => { onLogout(); setUserDropdownOpen(false); }} className="w-full text-left flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                     <FiLogOut className="mr-2" />
                     Keluar
@@ -133,8 +169,8 @@ const Navbar = ({ changePage, currentPage, isLoggedIn, onLogout }) => {
         {/* --- Dropdown Notifikasi (Responsif) --- */}
         <div
           className={`absolute top-full right-4 w-80 md:w-96 transition-all duration-300 ease-in-out ${isNotificationDropdownOpen
-              ? 'opacity-100 translate-y-0'
-              : 'opacity-0 -translate-y-4 pointer-events-none'
+            ? 'opacity-100 translate-y-0'
+            : 'opacity-0 -translate-y-4 pointer-events-none'
             }`}
         >
           <div className="bg-white rounded-lg shadow-xl">
@@ -167,8 +203,8 @@ const Navbar = ({ changePage, currentPage, isLoggedIn, onLogout }) => {
             <div className="flex justify-between items-center p-4 border-b"><h2 className="text-xl font-bold text-slate-800">Menu</h2><button onClick={closeMobileMenu} className="p-2 text-slate-800 hover:text-red"><FiX className="h-6 w-6" /></button></div>
             <div className="p-4 space-y-2">
               <div className="relative mb-2"><input type="text" className="bg-white border border-slate-400 text-slate-800 h-9 px-4 pr-10 rounded-full text-sm focus:outline-none w-full" placeholder="Search ..." /><button type="submit" className="absolute right-0 top-0 mt-2 mr-4"><FiSearch className="h-5 w-5 text-slate-600" /></button></div>
-              <a href="#" onClick={() => { changePage('beranda'); closeMobileMenu(); }} className="text-slate-800 hover:bg-red hover:text-white block px-3 py-2 rounded-md text-base font-medium">Beranda</a>
-              <a href="#" onClick={() => { changePage('berita'); closeMobileMenu(); }} className="text-slate-800 hover:bg-red hover:text-white block px-3 py-2 rounded-md text-base font-medium">Berita</a>
+              <a href="#" onClick={() => navigate('beranda')} className="text-slate-800 hover:bg-red hover:text-white block px-3 py-2 rounded-md text-base font-medium">Beranda</a>
+              <a href="#" onClick={() => navigate('berita')} className="text-slate-800 hover:bg-red hover:text-white block px-3 py-2 rounded-md text-base font-medium">Berita</a>
               <div>
                 <button onClick={() => setMobileInfoDropdownOpen(!isMobileInfoDropdownOpen)} className="w-full text-left text-slate-800 hover:bg-red hover:text-white px-3 py-2 rounded-md text-base font-medium flex justify-between items-center">
                   <span>Informasi</span>
@@ -176,12 +212,25 @@ const Navbar = ({ changePage, currentPage, isLoggedIn, onLogout }) => {
                 </button>
                 {isMobileInfoDropdownOpen && (
                   <div className="mt-2 pl-4">
-                    <a href="#" onClick={() => { changePage('profil'); closeMobileMenu(); }} className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-200 rounded-md">Profil</a>
-                    <a href="#" onClick={() => { changePage('visimisi'); closeMobileMenu(); }} className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-200 rounded-md">Visi & Misi</a>
-                    <a href="#" onClick={() => { changePage('kegiatan'); closeMobileMenu(); }} className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-200 rounded-md">Kegiatan</a>
+                    <a href="#" onClick={() => navigate('profil')} className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-200 rounded-md">Profil</a>
+                    <a href="#" onClick={() => navigate('visimisi')} className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-200 rounded-md">Visi & Misi</a>
+                    <a href="#" onClick={() => navigate('kegiatan')} className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-200 rounded-md">Kegiatan</a>
                   </div>
                 )}
               </div>
+
+              {/* --- LINK ADMIN MOBILE --- */}
+              {isLoggedIn && userRole === 'admin' && (
+                <a
+                  href="#"
+                  onClick={() => navigate('adminDashboard')}
+                  className="text-yellow-600 hover:bg-yellow-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                >
+                  Admin Panel
+                </a>
+              )}
+              {/* ------------------------- */}
+
             </div>
           </div>
         </>

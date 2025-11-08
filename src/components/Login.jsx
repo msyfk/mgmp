@@ -26,7 +26,9 @@ const Login = ({ changePage, onLoginSuccess }) => {
       }
 
       localStorage.setItem('token', data.token);
-      onLoginSuccess();
+
+      // Kirim 'data.role' ke App.jsx
+      onLoginSuccess(data.role);
 
     } catch (err) {
       setError(err.message);
