@@ -5,13 +5,38 @@ const Register = ({ changePage }) => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    // Logika untuk mendaftarkan pengguna
-    console.log('Mendaftar dengan:', { fullName, email, password });
-    // Setelah berhasil, arahkan ke halaman login
-    changePage('login');
+    setError('');
+    setSuccess('');
+
+    try {
+      // Kirim data ke backend
+      const response = await fetch('http://localhost:3001/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ fullName, email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Terjadi kesalahan saat mendaftar.');
+      }
+
+      setSuccess(data.message);
+      setTimeout(() => {
+        changePage('login');
+      }, 2000);
+
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
@@ -21,6 +46,10 @@ const Register = ({ changePage }) => {
           <h1 className="text-3xl font-extrabold text-slate-800">Buat Akun Baru</h1>
           <p className="mt-2 text-slate-600">Bergabunglah dengan komunitas kami sekarang!</p>
         </div>
+
+        {error && <div className="bg-red/10 text-red p-3 rounded-lg text-center font-medium">{error}</div>}
+        {success && <div className="bg-green-500/10 text-green-500 p-3 rounded-lg text-center font-medium">{success}</div>}
+
         <form className="space-y-6" onSubmit={handleRegister}>
           <div className="relative">
             <FiUser className="absolute top-3 left-3 text-slate-400" />

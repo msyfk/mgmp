@@ -1,14 +1,18 @@
 import React from 'react';
-import { FiUser, FiMail, FiEdit, FiShield, FiActivity, FiLogOut, FiCamera } from 'react-icons/fi';
+import { FiMail, FiEdit, FiShield, FiActivity, FiLogOut, FiCamera } from 'react-icons/fi';
 
-const ProfilPengguna = ({ onLogout }) => {
-  // Data pengguna statis sebagai contoh
-  const user = {
-    name: 'Ahmad Dahlan',
-    email: 'ahmad.dahlan@email.com',
-    avatar: 'https://placehold.co/128x128/e2e8f0/334155?text=AD'
-  };
+const ProfilPengguna = ({ user, onLogout }) => {
 
+  // Tampilkan pesan loading jika data pengguna belum siap
+  if (!user) {
+    return (
+      <div className="bg-slate-50 min-h-screen flex justify-center items-center">
+        <p className="text-slate-600 text-lg">Memuat data profil...</p>
+      </div>
+    );
+  }
+
+  // Jika data sudah ada, tampilkan profil
   return (
     <div className="bg-slate-50 min-h-screen py-12 px-4">
       <div className="container mx-auto max-w-4xl">
@@ -62,7 +66,6 @@ const ProfilPengguna = ({ onLogout }) => {
                 <p className="text-sm text-slate-500">Didapatkan pada 17 Agustus 2025.</p>
               </div>
             </div>
-            {/* Tambahkan aktivitas lain di sini */}
           </div>
         </div>
 
